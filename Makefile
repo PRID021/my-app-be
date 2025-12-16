@@ -1,6 +1,6 @@
 # Makefile for managing Docker environment
 
-.PHONY: help up down logs shell migrate revision seed test test-cov
+.PHONY: help up down logs shell migrate revision seed test test-cov new-test-tag
 
 help:
 	@echo "Usage: make [command]"
@@ -14,6 +14,7 @@ help:
 	@echo "  revision  Create a new alembic revision. Usage: make revision msg=\"Your message\""
 	@echo "  seed      Seed the database with mock data."
 	@echo "  test      Run the automated tests."
+	@echo "  new-test-tag  Create and push a new incremental test tag (e.g., test-v0.1.5)."
 
 up:
 	@echo "Starting up services in attached mode..."
@@ -52,3 +53,7 @@ revision:
 seed:
 	@echo "Seeding database with mock data..."
 	docker compose exec app python app/db/seed.py
+
+new-test-tag:
+	@echo "Creating new test tag..."
+	python ./scripts/tag_and_push.py

@@ -8,6 +8,7 @@ class PostRepository:
     """
     Repository for post-related database operations.
     """
+
     def __init__(self, db_session: AsyncSession):
         self.db_session = db_session
 
@@ -25,5 +26,7 @@ class PostRepository:
         """
         Get all posts from the database.
         """
-        result = await self.db_session.execute(select(Post).order_by(Post.created_at.desc()))
+        result = await self.db_session.execute(
+            select(Post).order_by(Post.created_at.desc())
+        )
         return result.scalars().all()

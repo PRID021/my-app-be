@@ -8,6 +8,7 @@ from app.core.logger import logger
 
 router = APIRouter()
 
+
 @router.post("/", response_model=PostRead, status_code=status.HTTP_201_CREATED)
 async def create_new_post(post: PostCreate, db: AsyncSession = Depends(get_db)):
     """
@@ -18,6 +19,7 @@ async def create_new_post(post: PostCreate, db: AsyncSession = Depends(get_db)):
     created_post = await service.create_post(post)
     logger.info("Successfully created new post", post_id=created_post.id)
     return created_post
+
 
 @router.get("/", response_model=List[PostRead])
 async def get_all_posts(db: AsyncSession = Depends(get_db)):

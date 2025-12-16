@@ -7,6 +7,7 @@ from app.models.post import Post
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 async def seed_data():
     """
     Hàm để nạp dữ liệu mẫu vào database.
@@ -32,17 +33,18 @@ async def seed_data():
             Post(
                 title="Clean Architecture in Python",
                 content="Applying clean architecture principles makes the codebase scalable, testable, and maintainable.",
-            )
+            ),
         ]
-        
+
         # Thêm dữ liệu vào session và commit
         db.add_all(mock_posts)
         await db.commit()
-        
+
         logger.info(f"Đã nạp thành công {len(mock_posts)} bài viết mẫu vào database.")
 
     finally:
         await db.close()
+
 
 if __name__ == "__main__":
     asyncio.run(seed_data())
