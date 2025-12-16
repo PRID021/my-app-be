@@ -1,168 +1,141 @@
 # My FastAPI Backend
 
-![Build Status](https://github.com/<your-username>/<your-repo>/actions/workflows/ci.yml/badge.svg)
-[![codecov](https://codecov.io/gh/<your-username>/<your-repo>/branch/main/graph/badge.svg)](https://codecov.io/gh/<your-username>/<your-repo>)
-[![Python Version](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Test on Dev Branch](https://github.com/your-username/your-repository/actions/workflows/test-dev.yml/badge.svg)](https://github.com/your-username/your-repository/actions/workflows/test-dev.yml)
+[![Coverage Status](https://coveralls.io/repos/github/your-username/your-repository/badge.svg?branch=dev)](https://coveralls.io/github/your-username/your-repository?branch=dev)
 
+This is a modern, robust backend starter project built with FastAPI, PostgreSQL, and Docker. It's designed to be high-performance, easy to set up, and ready for production.
 
-A complete FastAPI backend with clean architecture, asynchronous database operations, and production-ready logging. This project is fully containerized with Docker for easy setup and execution.
+> **Note:** Please replace `your-username/your-repository` in the badges above with your actual GitHub username and repository name.
 
-## 🚀 Quickstart: Running with Docker (Recommended)
+## ✨ Features
 
-With Docker and Docker Compose installed, you can get the entire stack (app + database) running with a single command.
+- **Framework**: **FastAPI** for high-performance, easy-to-learn, and fast-to-code APIs.
+- **Database**: **PostgreSQL** as the relational database.
+- **ORM**: **SQLAlchemy 2.0** for powerful and asynchronous database interactions.
+- **Migrations**: **Alembic** for handling database schema migrations.
+- **Data Validation**: **Pydantic** for data validation and settings management, deeply integrated with FastAPI.
+- **Containerization**: **Docker** and **Docker Compose** for a consistent development and production environment.
+- **Dependency Management**: **Poetry** for modern, deterministic dependency management.
+- **Testing**: **Pytest** with `pytest-asyncio` for asynchronous testing.
+- **Code Quality**:
+  - **Ruff** for extremely fast Python linting.
+  - **Black** for uncompromising code formatting.
+- **CI/CD**: **GitHub Actions** to automatically run tests, linting, and formatting checks on every push to the `dev` branch.
+- **Code Coverage**: **Coveralls** for tracking test coverage.
+
+## 🚀 Getting Started
+
+The recommended way to run this project is with Docker and Docker Compose.
 
 ### Prerequisites
 
-- [Docker](https://www.docker.com/get-started)
-- [Docker Compose](https://docs.docker.com/compose/install/) (usually included with Docker Desktop)
-- `make` (On Windows, you can install it via [Chocolatey](https://chocolatey.org/packages/make) or use WSL)
+- Docker
+- Docker Compose (usually included with Docker Desktop)
 
-###
-**Run the application:**
+### Docker Setup
 
+1.  **Clone the repository:**
+    ```bash
+    git clone <your-repository-url>
+    cd my-app-be
+    ```
+
+2.  **Create the environment file:**
+    Copy the example environment file. You can customize the database credentials if you wish, but the defaults are fine for local development.
+    ```bash
+    cp .env.docker.example .env.docker
+    ```
+
+3.  **Build and run the services:**
+    This command will build the `app` image and start both the FastAPI application and the PostgreSQL database containers.
+    ```bash
+    docker-compose up --build
+    ```
+
+    The API will be available at http://localhost:8000. The interactive documentation (Swagger UI) will be at http://localhost:8000/docs.
+
+    The application code is mounted as a volume, so any changes you make to the code will trigger an automatic reload of the server.
+
+## 🗄️ Database Migrations (Alembic)
+
+Alembic is used to manage database schema changes. Migrations are run from within the `app` container to ensure it has access to the database service.
+
+1.  **Create a new migration:**
+    After changing your SQLAlchemy models (e.g., in `app/models/`), generate a new migration script automatically.
+    ```bash
+    docker-compose exec app alembic revision --autogenerate -m "Your descriptive migration message"
+    ```
+    This will create a new file in `app/db/migrations/versions/`.
+
+2.  **Apply migrations:**
+    To apply all pending migrations to the database:
+    ```bash
+    docker-compose exec app alembic upgrade head
+    ```
+
+## 🧪 Running Tests
+
+Tests are run using Pytest. The test suite is configured to run against a temporary, isolated test database.
+
+To run all tests and generate a coverage report:
 ```bash
-make up
+docker-compose exec app poetry run pytest
 ```
 
-That's it! 
-
-The application will be available at `http://127.0.0.1:8000`. The `entrypoint.sh` script will automatically wait for the database and apply migrations on startup.
-
-### Makefile Commands
-
-- `make up`: Builds the images and starts all services.
-- `make down`: Stops and removes all containers and networks.
-- `make logs`: View real-time logs from the FastAPI application.
-- `make shell`: Open a shell inside the running application container (useful for debugging).
-- `make migrate`: Manually apply database migrations.
-- `make revision msg="your message"`: Create a new database migration file.
-- `make seed`: Populate the database with initial mock data.
-- `make test`: Run the automated tests against an in-memory test database.
-
----
-
-## 💻 Local Development (Without Docker)
-
-If you prefer to run the application directly on your machine, follow these steps.
-
-### 1. Prerequisites
-
-- Python 3.11 or higher
-- PostgreSQL database running
-
-## Features
-
-- **Python 3.11+**, **FastAPI**
-- **Clean Architecture**: `api`, `services`, `repositories`, `schemas`
-- **Database**: **PostgreSQL** with **SQLAlchemy 2.0 (async)**
-- **Migrations**: **Alembic**
-- **Validation**: **Pydantic V2**
-- **Configuration**: `pydantic-settings` with `.env` file
-- **Logging**: **Structlog** for JSON logging with rotation
-
-## Project Structure
-
-```
-.
-├── app/
-│   ├── api/
-│   │   ├── v1/
-│   │   │   └── posts.py
-│   │   └── router.py
-│   ├── core/
-│   │   ├── config.py
-│   │   └── logger.py
-│   │   └── security.py
-│   ├── db/
-│   │   ├── base.py
-│   │   ├── session.py
-│   │   └── migrations/
-│   │       ├── versions/
-│   │       │   └── ...
-│   │       ├── env.py
-│   │       └── script.py.mako
-│   ├── models/
-│   │   └── post.py
-│   ├── repositories/
-│   │   └── post_repository.py
-│   ├── schemas/
-│   │   └── post_schema.py
-│   ├── services/
-│   │   └── post_service.py
-│   ├── main.py
-│   └── __init__.py
-├── alembic.ini
-├── requirements.txt
-└── .env
-```
-
-## Setup and Installation
-
-### 1. Prerequisites
-
-- Python 3.11 or higher
-- PostgreSQL database running
-
-### 2. Clone the Repository
-
+Or if you are developing locally with Poetry:
 ```bash
-git clone <your-repo-url>
-cd <your-repo-folder>
+poetry run pytest
 ```
 
-### 3. Create a Virtual Environment
+## 🧹 Code Quality
 
-Poetry will automatically manage the virtual environment for you.
+This project uses **Ruff** for linting and **Black** for formatting to ensure code is clean and consistent.
 
-### 4. Install Dependencies
+### Linting
 
+To check for linting errors with Ruff:
 ```bash
-poetry install
+poetry run ruff check .
 ```
 
-### 5. Configure Environment Variables
-
-Create a file named `.env` inside the `app` directory and add your database connection URL.
-
-**`app/.env`:**
-```env
-DATABASE_URL=postgresql+asyncpg://user:pass@localhost:5432/mydb
-LOG_LEVEL=INFO
-```
-*Replace `user`, `pass`, `localhost`, `5432`, and `mydb` with your actual PostgreSQL credentials and database name.*
-
-### 6. Run Database Migrations
-
-Before running the application for the first time, you need to apply the database migrations to create the necessary tables.
-
+To automatically fix linting errors:
 ```bash
-alembic upgrade head
+poetry run ruff check . --fix
 ```
-*(Run this command from the root directory of the project)*
 
-## Running the Application
+### Formatting
 
-To start the FastAPI server, run the following command from the root directory:
-
+To check if the code is formatted correctly with Black:
 ```bash
-uvicorn app.main:app --reload
+poetry run black --check .
 ```
 
-The application will be available at `http://127.0.0.1:8000`.
-
-## API Endpoints
-
-You can access the interactive API documentation (Swagger UI) at `http://127.0.0.1:8000/docs`.
-
-- **`GET /api/v1/posts/`**: Retrieve a list of all posts.
-- **`POST /api/v1/posts/`**: Create a new post.
-
-**Example `POST` request body:**
-```json
-{
-  "title": "My First Post",
-  "content": "This is the content of my first post."
-}
+To automatically format the code:
+```bash
+poetry run black .
 ```
-.........
+
+## ⚙️ Local Development without Docker
+
+If you prefer not to use Docker, you can set up a local environment using Poetry.
+
+1.  **Install Poetry.**
+
+2.  **Install dependencies:**
+    This will create a virtual environment inside the project directory (`.venv`).
+    ```bash
+    poetry install
+    ```
+
+3.  **Set up a local PostgreSQL database.**
+
+4.  **Set the `DATABASE_URL` environment variable:**
+    You can use a `.env` file or export it in your shell.
+    ```sh
+    export DATABASE_URL="postgresql+asyncpg://user:password@localhost:5432/dbname"
+    ```
+
+5.  **Run the application:**
+    ```bash
+    poetry run uvicorn app.main:app --reload
+    ```
