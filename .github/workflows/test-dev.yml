@@ -1,4 +1,4 @@
-name: Test on Dev Branch T
+name: Test on Dev Branch
 
 on:
   push:
