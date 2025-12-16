@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Dừng script nếu có lỗi
+# Dừng script nếu có lỗi...
 set -e
 
 # Lấy các tag mới nhất từ remote để đảm bảo chúng ta có thông tin cập nhật
