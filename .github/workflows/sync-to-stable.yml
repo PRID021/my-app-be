@@ -28,13 +28,17 @@ jobs:
         run: |
           git fetch origin stable
           COMMIT_LIST=$(git log origin/stable..HEAD --pretty=format:"- %s (%h)")
-          {
-            echo 'body<<EOF'
-            echo '## ✨ New Changes'
-            echo ''
-            echo "$COMMIT_LIST"
-            echo 'EOF'
-          } >> "$GITHUB_OUTPUT"
+
+          # Use a 'here document' to safely create the multiline string
+          PR_BODY=$(cat <<EOF
+          ## ✨ New Changes
+
+          $COMMIT_LIST
+          EOF
+          )
+          echo "body<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$PR_BODY" >> "$GITHUB_OUTPUT"
+          echo "EOF" >> "$GITHUB_OUTPUT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
