@@ -8,6 +8,7 @@ class PostService:
     """
     Service for post-related business logic.
     """
+
     def __init__(self, db_session: AsyncSession):
         self.repo = PostRepository(db_session)
 

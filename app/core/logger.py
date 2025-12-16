@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 import structlog
 from app.core.config import settings
 
+
 def setup_logging():
     """
     Set up logging for the application.
@@ -14,7 +15,7 @@ def setup_logging():
 
     # Console handler
     console_handler = logging.StreamHandler(sys.stdout)
-    
+
     # File handler with rotation
     file_handler = RotatingFileHandler(
         "app.log", maxBytes=10 * 1024 * 1024, backupCount=5
@@ -64,5 +65,6 @@ def setup_logging():
     root_logger.addHandler(console_handler)
 
     return structlog.get_logger(__name__)
+
 
 logger = setup_logging()

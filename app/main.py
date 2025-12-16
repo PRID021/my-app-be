@@ -15,10 +15,10 @@ app = FastAPI(
 # Include the API router
 app.include_router(api_router, prefix="/api/v1")
 
+
 @app.get("/")
 def read_root():
     """
     Root endpoint.
     """
     return {"message": "Welcome to the FastAPI application!"}
-
