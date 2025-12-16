@@ -4,6 +4,10 @@ on:
   push:
     branches: ["dev"] # Kích hoạt khi có commit lên nhánh dev
 
+permissions:
+  contents: write      # Cấp quyền ghi vào repository (để tạo PR)
+  pull-requests: write # Cấp quyền tạo và quản lý Pull Requests
+
 jobs:
   test: # Đổi tên job thành 'test' cho rõ ràng
     runs-on: ubuntu-latest
