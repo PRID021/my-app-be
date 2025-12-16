@@ -23,21 +23,22 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Generate PR Body
+      - name: Generate PR Body using github-script
         id: pr_body
-        run: |
-          git fetch origin stable
-          COMMIT_LIST=$(git log origin/stable..HEAD --pretty=format:"- %s (%h)")
-
-          # Use a random delimiter for the heredoc to ensure multiline strings are handled safely
-          DELIMITER=$(openssl rand -hex 8)
-          {
-            echo "body<<$DELIMITER"
-            echo "## ✨ New Changes"
-            echo ""
-            echo "$COMMIT_LIST"
-            echo "$DELIMITER"
-          } >> "$GITHUB_OUTPUT"
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const exec = require('@actions/exec');
+            let commitList = '';
+            const options = {};
+            options.listeners = {
+              stdout: (data) => {
+                commitList += data.toString();
+              }
+            };
+            await exec.exec('git', ['log', 'origin/stable..HEAD', '--pretty=format:- %s (%h)'], options);
+            const body = `## ✨ New Changes\n\n${commitList}`;
+            core.setOutput('body', body);
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
