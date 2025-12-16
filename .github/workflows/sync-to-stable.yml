@@ -48,4 +48,3 @@ jobs:
           branch: "dev"
           base: "stable"
           labels: "sync"
-          update: true
