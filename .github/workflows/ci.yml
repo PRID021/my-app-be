@@ -38,6 +38,9 @@ jobs:
         run: poetry run black --check .
 
       - name: Run tests with Pytest
+        env:
+          # Đặt một giá trị giả lập để vượt qua bước kiểm tra cấu hình của Pydantic
+          DATABASE_URL: "postgresql+asyncpg://test:test@localhost/test"
         run: poetry run pytest --cov=app --cov-report=xml -v
 
       - name: Upload coverage reports to Codecov
