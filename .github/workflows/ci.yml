@@ -5,7 +5,7 @@ on:
     branches: ["dev"] # Kích hoạt khi có commit lên nhánh dev
 
 permissions:
-  contents: write      # Cấp quyền ghi vào repository (để tạo PR)
+  contents: write # Cấp quyền ghi vào repository (để tạo PR)
   pull-requests: write # Cấp quyền tạo và quản lý Pull Requests
 
 jobs:
@@ -87,3 +87,4 @@ jobs:
           branch: "dev"
           base: "stable"
           labels: "automerge, sync"
+          update: true # Cập nhật PR đã có nếu tồn tại
