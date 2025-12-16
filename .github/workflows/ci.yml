@@ -53,38 +53,38 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }} # Cần thêm token này vào GitHub Secrets
           slug: ${{ github.repository }}
 
-  create-pull-request:
-    # Job này chỉ chạy khi job 'test' thành công
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          # Lấy toàn bộ lịch sử commit để có thể so sánh các nhánh
-          fetch-depth: 0
+  # create-pull-request:
+  #   # Job này chỉ chạy khi job 'test' thành công
+  #   needs: test
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
+  #       with:
+  #         # Lấy toàn bộ lịch sử commit để có thể so sánh các nhánh
+  #         fetch-depth: 0
 
-      - name: Generate PR Body
-        id: pr_body
-        run: |
-          # Lấy nhánh stable về để so sánh
-          git fetch origin stable
-          # Tạo danh sách các commit mới
-          COMMIT_LIST=$(git log origin/stable..HEAD --pretty=format:"- %s")
-          # Gán danh sách commit vào biến output của step
-          echo "body<<EOF" >> $GITHUB_OUTPUT
-          echo "## ✨ New Changes" >> $GITHUB_OUTPUT
-          echo "" >> $GITHUB_OUTPUT
-          echo "$COMMIT_LIST" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
+  #     - name: Generate PR Body
+  #       id: pr_body
+  #       run: |
+  #         # Lấy nhánh stable về để so sánh
+  #         git fetch origin stable
+  #         # Tạo danh sách các commit mới
+  #         COMMIT_LIST=$(git log origin/stable..HEAD --pretty=format:"- %s")
+  #         # Gán danh sách commit vào biến output của step
+  #         echo "body<<EOF" >> $GITHUB_OUTPUT
+  #         echo "## ✨ New Changes" >> $GITHUB_OUTPUT
+  #         echo "" >> $GITHUB_OUTPUT
+  #         echo "$COMMIT_LIST" >> $GITHUB_OUTPUT
+  #         echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          title: "🤖 Sync: dev -> stable"
-          body: ${{ steps.pr_body.outputs.body }}
-          branch: "dev"
-          base: "stable"
-          labels: "automerge, sync"
-          update: true # Cập nhật PR đã có nếu tồn tại
+  #     - name: Create Pull Request
+  #       uses: peter-evans/create-pull-request@v6
+  #       with:
+  #         token: ${{ secrets.GITHUB_TOKEN }}
+  #         title: "🤖 Sync: dev -> stable"
+  #         body: ${{ steps.pr_body.outputs.body }}
+  #         branch: "dev"
+  #         base: "stable"
+  #         labels: "automerge, sync"
+  #         update: true # Cập nhật PR đã có nếu tồn tại
