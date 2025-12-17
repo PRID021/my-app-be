@@ -23,7 +23,32 @@ This is a modern, robust backend starter project built with FastAPI, PostgreSQL,
 - **CI/CD**: **GitHub Actions** to automatically run tests, linting, and formatting checks on every push to the `dev` branch.
 - **Code Coverage**: **Coveralls** for tracking test coverage.
 
-## 🚀 Getting Started
+## 📁 Project Structure
+
+```
+.
+├── .github/                    # GitHub Actions workflows
+│   └── workflows/
+│       └── test-dev.yml        # CI/CD pipeline for the 'dev' branch
+├── app/                        # Main application source code
+│   ├── api/                    # (Example) API endpoint routers
+│   ├── core/                   # Core logic (settings, config, etc.)
+│   ├── db/                     # Database-related modules
+│   │   └── migrations/         # Alembic database migration scripts
+│   ├── models/                 # SQLAlchemy ORM models
+│   ├── schemas/                # Pydantic schemas for data validation
+│   ├── tests/                  # Application tests
+│   └── main.py                 # FastAPI application entrypoint
+├── .env.docker.example         # Example environment variables for Docker
+├── .gitignore                  # Files and directories to be ignored by Git
+├── alembic.ini                 # Alembic configuration file
+├── docker-compose.yml          # Docker Compose configuration
+├── poetry.lock                 # Poetry lock file for deterministic builds
+├── pyproject.toml              # Project configuration for Poetry
+└── README.md                   # This file
+```
+
+## � Getting Started
 
 The recommended way to run this project is with Docker and Docker Compose.
 
