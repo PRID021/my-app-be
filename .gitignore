@@ -1,0 +1,55 @@
+# --- Python ---
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# --- Virtual Environments ---
+# Poetry virtual environment
+.venv/
+# Other common names
+venv/
+env/
+
+# --- IDEs / Editors ---
+# VS Code
+.vscode/
+
+# --- Testing & Coverage ---
+# Pytest cache
+.pytest_cache/
+
+# Coverage reports
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# --- Environment Files ---
+# Ignore all .env files
+.env
+.env.*
+
+# But DO NOT ignore example files
+!.env.docker.example
+!.env.prod.example
+
+# --- Docker ---
+# Docker can sometimes generate files, although our setup uses volumes
+
+# --- OS Generated Files ---
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# --- Log files ---
+*.log
+logs/
