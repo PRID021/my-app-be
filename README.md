@@ -1,11 +1,9 @@
 # My FastAPI Backend
 
-[![Test on Dev Branch](https://github.com/your-username/your-repository/actions/workflows/test-dev.yml/badge.svg)](https://github.com/your-username/your-repository/actions/workflows/test-dev.yml)
-[![Coverage Status](https://coveralls.io/repos/github/your-username/your-repository/badge.svg?branch=dev)](https://coveralls.io/github/your-username/your-repository?branch=dev)
+[![Test on Dev Branch](https://github.com/PRID021/my-app-be/actions/workflows/test-dev.yml/badge.svg)](https://github.com/PRID021/my-app-be/actions/workflows/test-dev.yml)
+[![Coverage Status](https://coveralls.io/repos/github/PRID021/my-app-be/badge.svg?branch=dev)](https://coveralls.io/github/PRID021/my-app-be?branch=dev)
 
 This is a modern, robust backend starter project built with FastAPI, PostgreSQL, and Docker. It's designed to be high-performance, easy to set up, and ready for production.
-
-> **Note:** Please replace `your-username/your-repository` in the badges above with your actual GitHub username and repository name.
 
 ## ✨ Features
 
